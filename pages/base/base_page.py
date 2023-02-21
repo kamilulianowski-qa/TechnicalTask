@@ -14,8 +14,15 @@ class BasePage:
         self.driver = driver
 
     @property
+    def accept_cookies_btn(self):
+        return (By.CSS_SELECTOR, '[data-test="accept-cookies-button"]')
+
+    @property
     def loader(self):
         return (By.CSS_SELECTOR, '.init-loader-circle')
+
+    def accept_cookies(self):
+        self.click(self.accept_cookies_btn)
 
     def get_text_locator(self, text):
         return (By.XPATH, f"//*[contains(text(), '{text}')]")
