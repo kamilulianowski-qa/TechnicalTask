@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 from pages.base.page_factory import PageFactory
 
@@ -11,8 +12,12 @@ def default_timeout(config):
 
 
 @pytest.fixture()
-def ui_browser(base_url):
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+def ui_browser(request, base_url):
+    if request.config.getoption("--browser") == 'chrome':
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+    elif request.config.getoption("--browser") == 'firefox':
+        driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+
     driver.get(base_url)
 
     yield driver
