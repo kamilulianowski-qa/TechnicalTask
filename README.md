@@ -17,11 +17,11 @@ pip install -r requirements.txt
 ## Run tests
 Chrome: 
 ```
-py.test --browser chrome --alluredir=allure_result
+python3 -m pytest --browser chrome --alluredir=allure_result
 ```
 Firefox: 
 ```
-py.test --browser firefox --alluredir=allure_result
+python3 -m pytest --browser firefox --alluredir=allure_result
 ```
 
 ## Reports:
