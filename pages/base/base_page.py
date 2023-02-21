@@ -20,7 +20,11 @@ class BasePage:
         return (By.XPATH, f"//*[contains(text(), '{text}')]")
 
     def click(self, locator, timeout=DEFAULT_TIMEOUT):
-        WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
+        try:
+            WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
+        except InterruptedError:
+            #try again if interrupted
+            WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
 
     def send_keys(self, locator, text, timeout=DEFAULT_TIMEOUT):
         self.ensure_input_is_empty(locator)
@@ -44,15 +48,6 @@ class BasePage:
     def get_text(self, locator, timeout=DEFAULT_TIMEOUT):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator)).get_attribute(
             "innerText")
-
-    def element_is_visible(self, locator, timeout=DEFAULT_TIMEOUT):
-        WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-
-    def element_is_clickable(self, locator, timeout=DEFAULT_TIMEOUT):
-        WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
-
-    def element_is_not_clickable(self, locator, timeout=DEFAULT_TIMEOUT):
-        WebDriverWait(self.driver, timeout).until_not(EC.element_to_be_clickable(locator))
 
     def wait_until_visible(self, locator, timeout=DEFAULT_TIMEOUT):
         WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))

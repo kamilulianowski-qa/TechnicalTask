@@ -5,7 +5,7 @@ import pytest
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default='chrome')
+    parser.addoption("--browser", action="store", default='firefox')
 
 
 @pytest.fixture(scope='session')
