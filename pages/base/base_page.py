@@ -1,5 +1,6 @@
 import time
 
+from selenium.common import ElementClickInterceptedException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,8 +23,9 @@ class BasePage:
     def click(self, locator, timeout=DEFAULT_TIMEOUT):
         try:
             WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
-        except InterruptedError:
+        except ElementClickInterceptedException:
             #try again if interrupted
+            time.sleep(0.3)
             WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator)).click()
 
     def send_keys(self, locator, text, timeout=DEFAULT_TIMEOUT):
